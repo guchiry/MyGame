@@ -1,0 +1,45 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+public class NoteManager {
+	private Array<Note> notesList = new Array<Note>();
+	private ScoreUI scoreui;
+
+	public NoteManager(ScoreUI scoreui){
+		this.scoreui = scoreui;
+	}
+
+	public Array<Note> getNotesList(){
+		return notesList;
+	}
+
+
+	public void addNote() {
+		Note note = new Note(new Vector2(800, scoreui.getCenterY()));
+		notesList.add(note);
+	}
+
+	public void moveNote(){
+		for(Note note : notesList){
+			note.movePositionX();
+		}
+	}
+
+	public void removeNote(int i){
+		notesList.removeIndex(i);
+	}
+
+	public Note getLatestNote(){
+		return notesList.first();
+	}
+
+	public boolean isEmpty(){
+		if(notesList.size == 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}

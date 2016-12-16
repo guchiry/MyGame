@@ -1,0 +1,9 @@
+package com.mygdx.game;
+
+public class HpBar {
+	private int hp;
+
+	public HpBar(){
+
+	}
+}

@@ -1,0 +1,32 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.utils.Array;
+
+public class SongGenerater {
+	private Array<Integer> song = new Array<Integer>();
+
+	public SongGenerater(int n){
+		SongList songList = new SongList(n);
+		song = getNewSong();
+	}
+
+	public Array<Integer> getSong(){
+		return song;
+	}
+
+	public int getLateSong(){
+		return song.first();
+	}
+
+	public void removeNote(int i){
+		if(!this.isEmpty()) song.removeIndex(i);
+	}
+
+	public boolean isEmpty(){
+		if(song.size == 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}

@@ -1,0 +1,103 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
+public class WorldRenderer {
+	private Score score;
+	private OrthographicCamera cam;
+	private Viewport viewport;
+	private SpriteBatch batch;
+
+	private int elapsedFrame = 0;
+
+	private int success = 0;
+	private int miss = 0;
+	private boolean endFlag = false;
+	private BitmapFont font;
+
+	ShapeRenderer renderer = new ShapeRenderer();
+
+	private SongConverter converter;
+
+	public WorldRenderer(World world,Score score){
+		this.score = score;
+		batch = new SpriteBatch();
+		this.cam = new OrthographicCamera(Settings.LOGICAL_WIDTH, Settings.LOGICAL_HEIGHT);
+		this.cam.position.set(Settings.LOGICAL_WIDTH/2, Settings.LOGICAL_HEIGHT/2, 0);
+		viewport = new FitViewport(Settings.LOGICAL_WIDTH, Settings.LOGICAL_HEIGHT, cam);
+		font = new BitmapFont();
+		font.setColor(1, 0, 0, 1);
+		font.getData().setScale(1.5f);
+		converter = new SongConverter(0);
+	}
+
+	public void render(float delta){
+		this.cam.update();
+		// ScoreUIの描画
+		ScoreUI scoreui = score.getScoreUI();
+		renderer = scoreui.getShapeRenderer();
+
+		renderer.setProjectionMatrix(cam.combined);
+		renderer.begin(ShapeType.Filled);
+		elapsedFrame++;
+
+		// ノート作成
+		if(!converter.isEmpty()){
+			if(elapsedFrame >= converter.getLateSong()){
+				elapsedFrame = 0;
+				converter.removeNote(0);
+				score.addNote();
+			}else{
+				endFlag = true;
+			}
+		}
+		// ノートの位置のアップデート及び判定箇所を通り過ぎたノートの削除
+		if(!score.isEmpty()){
+			score.moveNote();
+			for(Note note : score.getNotesList()){
+				renderer.setColor(1, 0, 0, 1);
+				renderer.circle(note.getPosition().x, note.getPosition().y, note.getRadius());
+			}
+			if(score.getLatestNote().getPosition().x <= 0){
+				score.removeNote(0);
+				miss++;
+			}
+		}
+		// タッチ入力判定
+		Dicision decision;
+		if(Gdx.input.justTouched()){
+			decision = new Dicision(score);
+			if(decision.isSuccess()){
+				success++;
+				score.removeNote(0);
+			}else{
+				miss++;
+				score.removeNote(0, Settings.REMOVE_DISTANCE);
+			}
+		}
+		renderer.end();
+
+		batch.setProjectionMatrix(cam.combined);
+		batch.begin();
+		font.draw(batch, decision.getString(), 20, 400);
+		font.draw(batch, "Success:" + success + " Miss:" + miss, 10, 40);
+		batch.end();
+
+		//終了処理
+		if(endFlag){
+
+		}
+
+	}
+
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+	}
+}

@@ -1,0 +1,47 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+public class NoteDisplay {
+	private Array<Note> dispNotesList = new Array<Note>();
+
+	public NoteDisplay(){
+	}
+
+	public void update(){
+
+	}
+
+	public Array<Note> getNotesList(){
+		return dispNotesList;
+	}
+
+	public void addNote(Vector2 position) {
+		Note note = new Note(position);
+		dispNotesList.add(note);
+	}
+
+	public void move(){
+		for(Note note : dispNotesList){
+			note.movePositionX();
+		}
+	}
+
+	public void removeNote(int i){
+		if(dispNotesList.size != 0)
+			dispNotesList.removeIndex(i);
+	}
+
+	public Note getLatestNote(){
+		return dispNotesList.first();
+	}
+
+	public boolean isEmpty(){
+		if(dispNotesList.size == 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}

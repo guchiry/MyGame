@@ -1,0 +1,47 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.utils.Array;
+
+public class NoteManagement {
+	private Array<Note> notesList = new Array<Note>();
+
+	public NoteManagement(){
+
+	}
+
+	public Array<Note> getNotesList(){
+		return notesList;
+	}
+
+	/**
+	 * ノートの作成を行います。作成できた場合はtrue,できなかった場合はfalseを返します。
+	 */
+	public boolean addNote() {
+		Note note = createNote();
+		notesList.add(note);
+		return false;
+	}
+
+	public void moveNote(){
+		//ノートの移動
+		for(Note note : notesList){
+			note.movePositionX();
+		}
+	}
+
+	public void removeNote(int i){
+		notesList.removeIndex(i);
+	}
+
+	public Note getLatestNote(){
+		return notesList.first();
+	}
+
+	public boolean isEmpty(){
+		if(notesList.size == 0){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}

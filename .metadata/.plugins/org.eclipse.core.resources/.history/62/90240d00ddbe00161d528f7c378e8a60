@@ -1,0 +1,21 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
+public class WorldRenderer {
+	private GameRenderer gameRenderer;
+
+	private OrthographicCamera cam;
+	private Viewport viewport;
+
+	public WorldRenderer(World world,Score score, OrthographicCamera cam, Viewport viewport){
+		this.cam = cam;
+		this.viewport = viewport;
+		gameRenderer = new GameRenderer(score, cam, viewport);
+	}
+
+	public void render(float delta){
+		gameRenderer.render(delta);
+	}
+}

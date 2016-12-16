@@ -1,0 +1,42 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+
+public class Note {
+	static final float RADIUS = 10f;
+
+	private Vector2 position;
+	private float speed;
+	private Texture texture = new Texture(Gdx.files.internal("kaede02.png"));
+//	Circle circle = new Circle();
+
+	public Note(Vector2 position){
+		this.position = position;
+		this.speed = Setting.NOTES_SPEED;
+//		circle.setRadius(RADIUS);
+	}
+
+	public Vector2 getPosition(){
+		return position;
+	}
+	/*
+
+	public Circle getCircle(){
+		return circle;
+	}
+
+	public float getRadius(){
+		return circle.radius;
+	}
+	*/
+
+	public void movePositionX(){
+		this.position.x -= this.speed;
+	}
+
+	public void movePositionX(float speed){
+		this.position.x -= speed;
+	}
+}

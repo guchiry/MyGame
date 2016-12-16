@@ -1,0 +1,13 @@
+package com.mygdx.game;
+
+public class WorldRenderer {
+	private GameRenderer gameRenderer;
+
+	public WorldRenderer(World world,Score score){
+		gameRenderer = new GameRenderer(score);
+	}
+
+	public void render(float delta){
+
+	}
+}

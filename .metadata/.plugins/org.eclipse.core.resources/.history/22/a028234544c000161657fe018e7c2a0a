@@ -1,0 +1,21 @@
+package com.mygdx.game;
+
+public class Controller {
+	private boolean touchFlag = false;
+
+	public void touched(){
+	// タッチ入力判定
+		if(touchFlag){
+			touchFlag = false;
+			decision.evaluate();
+			if(decision.getGrade() == GradeDecision.Grade.MISS){
+				decision.increaseMissNum();
+				noteDisp.removeNote(0);
+			}else if(!(decision.getGrade() == null)){
+				decision.increaseSuccessNum();
+				noteDisp.removeNote(0);
+			}
+			touchTime = 0;
+		}
+	}
+}

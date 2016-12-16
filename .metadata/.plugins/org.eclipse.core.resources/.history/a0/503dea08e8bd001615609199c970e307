@@ -1,0 +1,49 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+
+public class Score {
+	private ShapeRenderer renderer;
+	Array<Note> notesList = new Array();
+	private ScoreUI scoreui;
+
+	public Score(){
+		createScore();
+	}
+
+	public void createScore(){
+		scoreui = new ScoreUI(0, 320, 800, 160);
+	}
+
+	public Array<Note> getNotesList(){
+		return notesList;
+	}
+
+	public ScoreUI getScoreUI(){
+		return scoreui;
+	}
+
+	public Note createNote(){
+		Note note = new Note(new Vector2(700, scoreui.getCenterY()));
+		return note;
+	}
+
+	public void addNote() {
+		Note note = createNote();
+		notesList.add(note);
+	}
+
+	public void updateNote(){
+		//端まで到達したノートの削除
+		if(notesList.first().getPosition().x <= 100){
+			notesList.removeIndex(0);
+		}
+		//ノートの移動
+		for(Note note : notesList){
+			note.movePositionX();
+		}
+	}
+
+}

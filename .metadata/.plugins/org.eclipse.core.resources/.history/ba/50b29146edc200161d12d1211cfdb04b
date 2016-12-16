@@ -1,0 +1,13 @@
+package com.mygdx.game;
+
+public class HpBar {
+	private int hp;
+
+	public HpBar(){
+		hp = 100;
+	}
+
+	public int getHp(){
+		return this.hp;
+	}
+}

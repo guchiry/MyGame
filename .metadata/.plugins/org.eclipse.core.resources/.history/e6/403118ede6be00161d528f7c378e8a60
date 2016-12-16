@@ -1,0 +1,20 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.utils.Array;
+
+public class NoteManagement {
+	private Array<Note> notesList = new Array<Note>();
+
+	public NoteManagement(){
+
+	}
+
+	public Array<Note> getNotesList(){
+		return notesList;
+	}
+
+	public void addNote() {
+		Note note = createNote();
+		notesList.add(note);
+	}
+}

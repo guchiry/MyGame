@@ -1,0 +1,88 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
+public class WorldRenderer {
+	private GameRenderer gameRenderer;
+
+	public WorldRenderer(World world,Score score){
+		gameRenderer = new GameRenderer(score);
+	}
+
+	public void render(float delta){
+		this.cam.update();
+		// ScoreUIの描画
+		ScoreUI scoreui = score.getScoreUI();
+		renderer = scoreui.getShapeRenderer();
+
+		renderer.setProjectionMatrix(cam.combined);
+		renderer.begin(ShapeType.Filled);
+
+		// 値の更新
+		touchTime += delta;
+		elapsedFrame++;
+
+		// ノート作成
+		if(!converter.isEmpty()){
+			if(elapsedFrame >= converter.getLateSong()){
+				elapsedFrame = 0;
+				converter.removeNote(0);
+				score.addNote();
+			}else{
+				endFlag = true;
+			}
+		}
+		// ノートの位置のアップデート及び判定箇所を通り過ぎたノートの削除
+		if(!score.isEmpty()){
+			score.moveNote();
+			for(Note note : score.getNotesList()){
+				renderer.setColor(1, 0, 0, 1);
+				renderer.circle(note.getPosition().x, note.getPosition().y, note.getRadius());
+			}
+			if(score.getLatestNote().getPosition().x <= 0){
+				score.removeNote(0);
+				miss++;
+			}
+		}
+		// タッチ入力判定
+		if(Gdx.input.justTouched()){
+			Dicision decision = new Dicision(score);
+			if(decision.getDistance() <= Settings.SUCCESS_DISTANCE){
+				success++;
+				dicisionStr = decision.getString();
+				score.removeNote(0);
+			}else if(decision.getDistance() <= Settings.MISS_DISTANCE){
+				miss++;
+				dicisionStr = decision.getString();
+				score.removeNote(0);
+			}
+			touchTime = 0;
+		}
+		renderer.end();
+
+		batch.setProjectionMatrix(cam.combined);
+		batch.begin();
+		if(touchTime < Settings.DICISION_FADE_TIME){
+			font.draw(batch, dicisionStr, 20, 440);
+		}
+		font.draw(batch, "Success:" + success + " Miss:" + miss, 10, 40);
+		batch.end();
+
+		//終了処理
+		if(endFlag){
+
+		}
+
+	}
+
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+	}
+}

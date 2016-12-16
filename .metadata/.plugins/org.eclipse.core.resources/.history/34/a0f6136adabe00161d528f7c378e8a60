@@ -1,0 +1,16 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+
+public class WorldRenderer {
+	private GameRenderer gameRenderer;
+
+	public WorldRenderer(World world,Score score){
+		gameRenderer = new GameRenderer(score);
+	}
+
+	public void render(float delta){
+
+	}
+}

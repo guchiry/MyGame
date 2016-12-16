@@ -1,0 +1,42 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.IntArray;
+
+public class SongList {
+	private Array<IntArray<Integer>> allSongList = new Array<IntArray<Integer>>();
+	private Array<Integer> newSong = new Array<Integer>();
+
+	public SongList(){
+		createAllSongList();
+	}
+
+	public Array<Integer> getSong(int n){
+		return allSongList.get(n);
+	}
+
+	private void createAllSongList(){
+		for(int i=0; i <= Setting.ALL_NUMBER; i++){
+			Integer[] nList = getList(i);
+			for(int j = 0; j < nList.length; j++){
+				newSong.add(nList[j]);
+			}
+			allSongList.add(newSong);
+			System.out.println(""+allSongList);
+			newSong.clear();
+			System.out.println(""+allSongList);
+
+		}
+	}
+
+	// ここに曲を追加
+	private Integer[] getList(int n){
+		if(n == 0){
+			Integer[] list = {20,20,20,30,30,20,30,30,30,50,20,30,50,20,40,30,20,30,20,20,20,20,10};
+			return list;
+		}else{
+			Integer[] list = {5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,5,30};
+			return list;
+		}
+	}
+}

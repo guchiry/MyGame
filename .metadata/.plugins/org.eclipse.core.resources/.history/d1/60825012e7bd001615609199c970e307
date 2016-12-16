@@ -1,0 +1,12 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.utils.Array;
+
+public class Dicision {
+	Array<Note> notesList = new Array();
+	Score score;
+
+	public Dicision(){
+
+	}
+}

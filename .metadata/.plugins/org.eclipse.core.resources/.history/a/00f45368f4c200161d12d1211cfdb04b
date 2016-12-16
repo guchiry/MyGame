@@ -1,0 +1,31 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+
+public class HpBar {
+	private ShapeRenderer renderer;
+	private int hp;
+
+	public HpBar(){
+		hp = 100;
+		renderer = new ShapeRenderer();
+	}
+
+	public void draw(){
+		renderer.begin(ShapeType.Line);
+		renderer.setColor(1, 1, 1, 1);
+		renderer.rect(20,455,241,15);
+		renderer.end();
+		renderer.begin(ShapeType.Filled);
+		renderer.rect(20,455,40,15);
+
+		if(hp.getHp()>=0){
+			System.out.println(hp.getHp());
+			renderer.setColor(0,1,0,1);
+			renderer.rect(60, 456, hp.getHp() * 2, 14);
+		}
+
+		renderer.end();
+	}
+}

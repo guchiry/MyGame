@@ -1,0 +1,78 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
+public class GameScreen implements Screen{
+
+	private World world;
+	private Score score;
+	private OrthographicCamera cam;
+	private Viewport viewport;
+	private WorldRenderer renderer;
+
+	@Override
+	public void show() {
+		this.cam = new OrthographicCamera(Setting.LOGICAL_WIDTH, Setting.LOGICAL_HEIGHT);
+		this.cam.position.set(Setting.LOGICAL_WIDTH/2, Setting.LOGICAL_HEIGHT/2, 0);
+		viewport = new FitViewport(Setting.LOGICAL_WIDTH, Setting.LOGICAL_HEIGHT, cam);
+
+		world = new World();
+		score = new Score();
+
+		renderer = new WorldRenderer(world, score, cam);
+	}
+
+	@Override
+	public void render(float delta) {
+		Gdx.gl.glClearColor(0.1f, 0.1f, 0.1f, 1);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		renderer.render(delta);
+
+		if (Gdx.input.isTouched()) { // #3
+		    float x = Gdx.input.getX(); // #4
+		    float y = Gdx.input.getY();
+		    Vector3 touchPoint = new Vector3();
+		    viewport.unproject(touchPoint.set(x, y, 0)); // #5
+		    Rectangle leftBounds = leftButton.getBoundingRectangle(); // #6
+		    Rectangle rightBounds = rightButton.getBoundingRectangle(); // #7
+		    if (leftBounds.contains(touchPoint.x, touchPoint.y)) { // #8
+		        leftButton.setColor(Color.GRAY); // #9
+		        left();
+		    } else if (rightBounds.contains(touchPoint.x, touchPoint.y)) { // #10
+		        rightButton.setColor(Color.GRAY); // #11
+		        right();
+		    }
+		}
+	}
+
+	@Override
+	public void pause() {
+
+	}
+
+	@Override
+	public void resume() {
+
+	}
+
+	@Override
+	public void hide() {
+
+	}
+
+	@Override
+	public void dispose() {
+
+	}
+
+	@Override
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+	}
+
+}

@@ -1,0 +1,30 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.Gdx;
+
+public class Controller {
+	private GradeDecision decision;
+	private Score score;
+	private boolean touchFlag = false;
+
+	public Controller(){
+		decision = new GradeDecision(score);
+	}
+
+	public void touched(){
+		if(Gdx.input.justTouched()) touchFlag = true;
+
+		if(touchFlag){
+			touchFlag = false;
+			decision.evaluate();
+			if(decision.getGrade() == GradeDecision.Grade.MISS){
+				decision.increaseMissNum();
+				noteDisp.removeNote(0);
+			}else if(!(decision.getGrade() == null)){
+				decision.increaseSuccessNum();
+				noteDisp.removeNote(0);
+			}
+			touchTime = 0;
+		}
+	}
+}

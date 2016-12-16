@@ -1,0 +1,32 @@
+package com.mygdx.game;
+
+public class Dicision {
+	Score score;
+
+	public Dicision(Score score){
+		this.score = score;
+	}
+
+	public float getDistance(){
+		float distance = Settings.MAX_DISTANCE;
+		if(!score.isEmpty()){
+			distance = score.getScoreUI().getCenterX() - score.getLatestNote().getPosition().x;
+			if(distance < 0) distance = -distance;
+		}
+		return distance;
+	}
+
+	public String getString(){
+		float distance = getDistance();
+		if(distance <= Settings.MISS_DISTANCE){
+			return "MISS";
+		}else if(distance <= Settings.GOOD_DISTANCE){
+			return "GOOD";
+		}else if(distance <= Settings.GREAT_DISTANCE){
+			return "GREAT";
+		}else if(distance <= Settings.PERFECT_DISTANCE){
+			return "PERFECT";
+		}
+		return "";
+	}
+}

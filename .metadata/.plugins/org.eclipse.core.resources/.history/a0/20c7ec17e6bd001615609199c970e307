@@ -1,0 +1,63 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
+public class WorldRenderer {
+	private Score score;
+	private World world;
+	private OrthographicCamera cam;
+	Viewport viewport;
+	private SpriteBatch batch;
+
+	private float time = 0;
+
+	ShapeRenderer renderer = new ShapeRenderer();
+
+	public WorldRenderer(World world,Score score){
+		this.score = score;
+		this.world = world;
+		batch = new SpriteBatch();
+		this.cam = new OrthographicCamera(Settings.LOGICAL_WIDTH, Settings.LOGICAL_HEIGHT);
+		this.cam.position.set(Settings.LOGICAL_WIDTH/2, Settings.LOGICAL_HEIGHT/2, 0);
+		viewport = new FitViewport(800, 480, cam);
+	}
+
+	public void render(float delta){
+		this.cam.update();
+		renderer.setProjectionMatrix(cam.combined);
+		ScoreUI scoreui = score.getScoreUI();
+		renderer = scoreui.getShapeRenderer();
+
+		renderer.begin(ShapeType.Filled);
+		time += delta;
+		if(time > 1 || time == 0){
+			score.addNote();
+			time = 0;
+		}
+		if(score.notesList.size != 0){
+			score.updateNote();
+			renderer = score.drawNotes(renderer);
+		}
+		renderer.end();
+
+		/*
+		batch.setProjectionMatrix(cam.combined);
+		batch.begin();
+		Kaede kaede = world.getKaede();
+		float x1 = kaede.getPosition().x;
+		float y1 = kaede.getPosition().y;
+		TextureRegion kaedeSplit = kaede.getKaedeSplit();
+		batch.draw(kaedeSplit, x1, y1,kaede.getBounds().x, kaede.getBounds().y);
+		batch.end();
+		*/
+	}
+
+	public void resize(int width, int height) {
+		viewport.update(width, height);
+	}
+}

@@ -1,0 +1,13 @@
+package com.mygdx.game;
+
+public class HitPoint {
+	private int hp;
+
+	public HitPoint(){
+		hp = 100;
+	}
+
+	public int getHp(){
+		return this.hp;
+	}
+}

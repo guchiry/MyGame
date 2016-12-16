@@ -1,0 +1,24 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
+
+public class WorldRenderer {
+	private GameRenderer gameRenderer;
+
+	private OrthographicCamera cam;
+	private Viewport viewport;
+
+	public WorldRenderer(World world,Score score){
+		gameRenderer = new GameRenderer(score, cam, viewport);
+
+		this.cam = new OrthographicCamera(Settings.LOGICAL_WIDTH, Settings.LOGICAL_HEIGHT);
+		this.cam.position.set(Settings.LOGICAL_WIDTH/2, Settings.LOGICAL_HEIGHT/2, 0);
+		viewport = new FitViewport(Settings.LOGICAL_WIDTH, Settings.LOGICAL_HEIGHT, cam);
+	}
+
+	public void render(float delta){
+		gameRenderer.render(delta);
+	}
+}

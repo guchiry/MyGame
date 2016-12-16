@@ -1,0 +1,61 @@
+package com.mygdx.game;
+
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+
+public class GameRenderer {
+	private Score score;
+
+	private SpriteBatch batch;
+	private OrthographicCamera cam;
+	private BitmapFont font;
+	private ShapeRenderer renderer = new ShapeRenderer();
+
+	public GameRenderer(Score score, OrthographicCamera cam){
+		this.score = score;
+		this.cam = cam;
+		batch = new SpriteBatch();
+		font = new BitmapFont();
+		font.setColor(1, 0, 0, 1);
+		font.getData().setScale(1.5f);
+	}
+
+	private void update(float delta){
+		score.update(delta);
+	}
+
+	private void draw(float delta){
+		this.cam.update();
+
+		//文字描画
+		batch.setProjectionMatrix(cam.combined);
+		batch.begin();
+		font.draw(batch, "Success:" + score.getDecision().getSuccessNum() + " Miss:" + score.getDecision().getMissNum(), 10, 40);
+		if(score.getTouchTime() < Setting.DICISION_FADE_TIME) font.draw(batch, score.getDicisionStr(), 20, 440);
+		batch.end();
+
+		// ScoreUIの描画
+		ScoreUI scoreui = score.getScoreUI();
+		renderer = scoreui.getShapeRenderer();
+
+		renderer.setProjectionMatrix(cam.combined);
+		renderer.begin(ShapeType.Filled);
+
+		// ノーツの描画
+		if(!score.getNoteMng().isEmpty()){
+			for(Note note : score.getNoteMng().getDispNotesList()){
+				renderer.setColor(1, 0, 0, 1);
+				renderer.circle(note.getPosition().x, note.getPosition().y, note.getRadius());
+			}
+		}
+		renderer.end();
+	}
+
+	public void render(float delta){
+		update(delta);
+		draw(delta);
+	}
+}
