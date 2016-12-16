@@ -1,4 +1,3 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">
-<refactoring comment="リソース &apos;aa&apos; を削除" deleteContents="true" description="リソース &apos;aa&apos; を削除" element1="/aa" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1481818387608"/>
+<session version="1.0">&#x0A;<refactoring comment="リソース &apos;aa&apos; を削除" deleteContents="true" description="リソース &apos;aa&apos; を削除" element1="/aa" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1481818387608"/>&#x0A;<refactoring comment="リソース &apos;refactoering.practice&apos; を削除" deleteContents="true" description="リソース &apos;refactoering.practice&apos; を削除" element1="/refactoering.practice" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1481893683116"/>&#x0A;<refactoring comment="リソース &apos;test&apos; を削除" deleteContents="false" description="リソース &apos;test&apos; を削除" element1="/test" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1481893688333"/>
 </session>
